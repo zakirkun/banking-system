@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package banking;
+
+option go_package = "github.com/zakirkun/banking-microservices/api/proto";
+
+service AuthService {
+    rpc Register(RegisterRequest) returns (AuthResponse);
+    rpc Login(LoginRequest) returns (AuthResponse);
+    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+}
+
+message RegisterRequest {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+    string phone_number = 4;
+}
+
+message LoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    string token = 1;
+    string user_id = 2;
+    string expires_at = 3;
+}
+
+message ValidateTokenRequest {
+    string token = 1;
+}
+
+message ValidateTokenResponse {
+    bool is_valid = 1;
+    string user_id = 2;
+} 

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package banking;
+
+option go_package = "github.com/zakirkun/banking-microservices/api/proto";
+
+service TransactionService {
+    rpc CreateTransaction(CreateTransactionRequest) returns (TransactionResponse);
+    rpc GetTransaction(GetTransactionRequest) returns (TransactionResponse);
+    rpc UpdateTransactionStatus(UpdateTransactionStatusRequest) returns (TransactionResponse);
+    rpc ListTransactions(ListTransactionsRequest) returns (ListTransactionsResponse);
+}
+
+message CreateTransactionRequest {
+    string source_account_id = 1;
+    string destination_account_id = 2;
+    double amount = 3;
+    string currency = 4;
+    string transaction_type = 5;
+    string description = 6;
+    map<string, string> metadata = 7;
+}
+
+message TransactionResponse {
+    string transaction_id = 1;
+    string source_account_id = 2;
+    string destination_account_id = 3;
+    double amount = 4;
+    string currency = 5;
+    string transaction_type = 6;
+    string status = 7;
+    string description = 8;
+    map<string, string> metadata = 9;
+    string created_at = 10;
+    string updated_at = 11;
+}
+
+message GetTransactionRequest {
+    string transaction_id = 1;
+}
+
+message UpdateTransactionStatusRequest {
+    string transaction_id = 1;
+    string status = 2;
+    string reason = 3;
+}
+
+message ListTransactionsRequest {
+    string account_id = 1;
+    string start_date = 2;
+    string end_date = 3;
+    string transaction_type = 4;
+    string status = 5;
+    int32 page = 6;
+    int32 limit = 7;
+}
+
+message ListTransactionsResponse {
+    repeated TransactionResponse transactions = 1;
+    int32 total = 2;
+} 

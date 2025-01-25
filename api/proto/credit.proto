@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package banking;
+
+option go_package = "github.com/zakirkun/banking-microservices/api/proto";
+
+service CreditService {
+    rpc ApplyForCredit(ApplyForCreditRequest) returns (CreditResponse);
+    rpc GetCredit(GetCreditRequest) returns (CreditResponse);
+    rpc MakePayment(MakeCreditPaymentRequest) returns (CreditPaymentResponse);
+    rpc GetCreditStatement(GetCreditStatementRequest) returns (CreditStatementResponse);
+}
+
+message ApplyForCreditRequest {
+    string customer_id = 1;
+    double amount = 2;
+    int32 tenure_months = 3;
+    string purpose = 4;
+    double monthly_income = 5;
+}
+
+message CreditResponse {
+    string credit_id = 1;
+    string customer_id = 2;
+    double amount = 3;
+    double interest_rate = 4;
+    int32 tenure_months = 5;
+    double emi_amount = 6;
+    string status = 7;
+    string created_at = 8;
+}
+
+message GetCreditRequest {
+    string credit_id = 1;
+}
+
+message MakeCreditPaymentRequest {
+    string credit_id = 1;
+    double amount = 2;
+    string payment_method = 3;
+}
+
+message CreditPaymentResponse {
+    string payment_id = 1;
+    string credit_id = 2;
+    double amount = 3;
+    string status = 4;
+    string created_at = 5;
+}
+
+message GetCreditStatementRequest {
+    string credit_id = 1;
+    string statement_month = 2;
+}
+
+message CreditStatementResponse {
+    string statement_id = 1;
+    string credit_id = 2;
+    string statement_period = 3;
+    double total_amount_due = 4;
+    double minimum_amount_due = 5;
+    string due_date = 6;
+    repeated CreditTransaction transactions = 7;
+}
+
+message CreditTransaction {
+    string transaction_id = 1;
+    string description = 2;
+    double amount = 3;
+    string transaction_date = 4;
+    string type = 5;
+} 

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package banking;
+
+option go_package = "github.com/zakirkun/banking-microservices/api/proto";
+
+service BalanceService {
+    rpc GetBalance(GetBalanceRequest) returns (BalanceResponse);
+    rpc UpdateBalance(UpdateBalanceRequest) returns (BalanceResponse);
+    rpc GetBalanceHistory(GetBalanceHistoryRequest) returns (GetBalanceHistoryResponse);
+}
+
+message GetBalanceRequest {
+    string account_id = 1;
+}
+
+message BalanceResponse {
+    string account_id = 1;
+    double current_balance = 2;
+    double available_balance = 3;
+    double hold_amount = 4;
+    string currency = 5;
+    string updated_at = 6;
+}
+
+message UpdateBalanceRequest {
+    string account_id = 1;
+    double amount = 2;
+    string operation_type = 3; // CREDIT, DEBIT, HOLD, RELEASE
+    string reference_id = 4;
+}
+
+message GetBalanceHistoryRequest {
+    string account_id = 1;
+    string start_date = 2;
+    string end_date = 3;
+    int32 page = 4;
+    int32 limit = 5;
+}
+
+message BalanceHistoryEntry {
+    string account_id = 1;
+    double amount = 2;
+    double balance_after = 3;
+    string operation_type = 4;
+    string reference_id = 5;
+    string created_at = 6;
+}
+
+message GetBalanceHistoryResponse {
+    repeated BalanceHistoryEntry history = 1;
+    int32 total = 2;
+} 

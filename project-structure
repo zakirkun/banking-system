@@ -1,0 +1,21 @@
+banking-microservices/
+├── api/
+│   └── proto/
+│       └── banking.proto
+├── cmd/
+│   ├── account-service/
+│   │   └── main.go
+│   └── transaction-service/
+│       └── main.go
+├── internal/
+│   ├── account/
+│   │   ├── repository.go
+│   │   └── service.go
+│   └── transaction/
+│       ├── repository.go
+│       └── service.go
+├── pkg/
+│   └── common/
+│       └── config.go
+├── go.mod
+└── README.md 

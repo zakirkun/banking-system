@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package banking;
+
+option go_package = "github.com/zakirkun/banking-microservices/api/proto";
+
+service DebitService {
+    rpc ProcessDebit(ProcessDebitRequest) returns (DebitResponse);
+    rpc GetDebit(GetDebitRequest) returns (DebitResponse);
+    rpc SetupRecurringDebit(SetupRecurringDebitRequest) returns (RecurringDebitResponse);
+    rpc CancelRecurringDebit(CancelRecurringDebitRequest) returns (CancelRecurringDebitResponse);
+}
+
+message ProcessDebitRequest {
+    string account_id = 1;
+    double amount = 2;
+    string merchant_id = 3;
+    string description = 4;
+    map<string, string> metadata = 5;
+}
+
+message DebitResponse {
+    string debit_id = 1;
+    string account_id = 2;
+    double amount = 3;
+    string merchant_id = 4;
+    string status = 5;
+    string description = 6;
+    map<string, string> metadata = 7;
+    string created_at = 8;
+}
+
+message GetDebitRequest {
+    string debit_id = 1;
+}
+
+message SetupRecurringDebitRequest {
+    string account_id = 1;
+    double amount = 2;
+    string merchant_id = 3;
+    string frequency = 4; // DAILY, WEEKLY, MONTHLY
+    string start_date = 5;
+    string end_date = 6;
+    string description = 7;
+}
+
+message RecurringDebitResponse {
+    string recurring_debit_id = 1;
+    string account_id = 2;
+    double amount = 3;
+    string merchant_id = 4;
+    string frequency = 5;
+    string start_date = 6;
+    string end_date = 7;
+    string status = 8;
+    string next_debit_date = 9;
+    string created_at = 10;
+}
+
+message CancelRecurringDebitRequest {
+    string recurring_debit_id = 1;
+    string reason = 2;
+}
+
+message CancelRecurringDebitResponse {
+    bool success = 1;
+    string message = 2;
+} 

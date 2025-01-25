@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package banking;
+
+option go_package = "github.com/zakirkun/banking-microservices/api/proto";
+
+import "api/proto/transaction.proto";
+
+service HistoryService {
+    rpc GetAccountHistory(GetAccountHistoryRequest) returns (GetAccountHistoryResponse);
+    rpc GetCustomerHistory(GetCustomerHistoryRequest) returns (GetCustomerHistoryResponse);
+    rpc ExportHistory(ExportHistoryRequest) returns (ExportHistoryResponse);
+}
+
+message GetAccountHistoryRequest {
+    string account_id = 1;
+    string start_date = 2;
+    string end_date = 3;
+    string transaction_type = 4;
+    int32 page = 5;
+    int32 limit = 6;
+}
+
+message GetAccountHistoryResponse {
+    repeated TransactionResponse transactions = 1;
+    int32 total = 2;
+}
+
+message GetCustomerHistoryRequest {
+    string customer_id = 1;
+    string start_date = 2;
+    string end_date = 3;
+    repeated string account_ids = 4;
+    int32 page = 5;
+    int32 limit = 6;
+}
+
+message GetCustomerHistoryResponse {
+    repeated TransactionResponse transactions = 1;
+    int32 total = 2;
+}
+
+message ExportHistoryRequest {
+    string customer_id = 1;
+    string account_id = 2;
+    string start_date = 3;
+    string end_date = 4;
+    string format = 5; // PDF, CSV, EXCEL
+}
+
+message ExportHistoryResponse {
+    string file_url = 1;
+    string expires_at = 2;
+} 

@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package banking;
+
+option go_package = "github.com/zakirkun/banking-microservices/api/proto";
+
+service CustomerService {
+    rpc CreateCustomer(CreateCustomerRequest) returns (CustomerResponse);
+    rpc GetCustomer(GetCustomerRequest) returns (CustomerResponse);
+    rpc UpdateCustomer(UpdateCustomerRequest) returns (CustomerResponse);
+    rpc DeleteCustomer(DeleteCustomerRequest) returns (DeleteCustomerResponse);
+    rpc ListCustomers(ListCustomersRequest) returns (ListCustomersResponse);
+}
+
+message CreateCustomerRequest {
+    string user_id = 1;
+    string full_name = 2;
+    string date_of_birth = 3;
+    string address = 4;
+    string id_number = 5;
+    string id_type = 6;
+}
+
+message CustomerResponse {
+    string customer_id = 1;
+    string user_id = 2;
+    string full_name = 3;
+    string date_of_birth = 4;
+    string address = 5;
+    string id_number = 6;
+    string id_type = 7;
+    string status = 8;
+    string created_at = 9;
+    string updated_at = 10;
+}
+
+message GetCustomerRequest {
+    string customer_id = 1;
+}
+
+message UpdateCustomerRequest {
+    string customer_id = 1;
+    string full_name = 2;
+    string address = 3;
+}
+
+message DeleteCustomerRequest {
+    string customer_id = 1;
+}
+
+message DeleteCustomerResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message ListCustomersRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    string search = 3;
+}
+
+message ListCustomersResponse {
+    repeated CustomerResponse customers = 1;
+    int32 total = 2;
+} 
